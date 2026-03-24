@@ -1,7 +1,7 @@
 ---
 
 # Reorg - An organisation application
-*A minimal, opinionated digital planner - daily scheduling, weekly planning, task management and goal tracking in one focused interface.*
+_A minimal, opinionated digital planner - daily scheduling, weekly planning, task management and goal tracking in one focused interface._
 
 ---
 
