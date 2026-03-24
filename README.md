@@ -1,40 +1,73 @@
----
+# React + TypeScript + Vite
 
-# Reorg - An organisation application
-_A minimal, opinionated digital planner - daily scheduling, weekly planning, task management and goal tracking in one focused interface._
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## Overview
-Planner is a personal productivity web app built around four levels of abstraction — from hourly schedule to long-term goals — displayed simultaneously in a four-panel layout on desktop, and as navigable single views on mobile.
-It is designed to be distraction-free, fast, and deeply integrated with the tools people already use (Google Calendar, Notion).
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Views
-PanelNamePurpose1Day ScheduleHour-by-hour view, imported from Google Calendar or Notion2Week ViewDay themes, milestones, events — colour-coded and tagged3Task ViewMinimal to-do list with carry-forward, day separators, and goal grouping4Goals ViewLong-running goals with sub-tasks, due dates, and effort/priority weighting
+## React Compiler
 
-## Tech Stack (planned)
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- Frontend: React + TypeScript, Tailwind CSS
-- Backend / DB: Supabase (Postgres, Auth, Realtime)
-- Hosting: Vercel
-- Integrations: Google Calendar API, Notion API
+## Expanding the ESLint configuration
 
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Features (planned)
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
- -[ ] Four-panel desktop layout / single-panel mobile layout
- -[ ] Google Calendar read-only sync (View 1)
- -[ ] Notion import
- -[ ] Task carry-forward (incomplete tasks roll to next day)
- -[ ] Priority × Effort task weighting
- -[ ] Goals with sub-tasks linked to task view
- -[ ] Milestones, day themes, colour coding, tags
- -[ ] Cross-view linking (goals ↔ milestones ↔ tasks)
- -[ ] Google OAuth authentication
- -[ ] React Native mobile app (post-web)
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-Getting Started
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-Setup instructions will be added as the project progresses.
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
